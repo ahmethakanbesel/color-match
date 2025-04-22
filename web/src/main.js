@@ -9,6 +9,12 @@ const gameState = {
   language: 'en', // Default language
   countdownInterval: null,
   isWelcomeCard: true,
+  soundEnabled: true, // Add sound state
+};
+
+// Sound effects
+const sounds = {
+  swipe: new Audio('swipe.mp3'),
 };
 
 // Available colors for the game
@@ -85,9 +91,48 @@ let startScreenElement;
 let startButtonElement;
 let languageButtons;
 let timerWarningElement;
+let soundToggleElement;
 
 // Current card that's being shown
 let currentCard = null;
+
+// Sound function - play sound if enabled
+function playSound(soundName) {
+  if (gameState.soundEnabled && sounds[soundName]) {
+    // Reset sound to beginning in case it's already playing
+    sounds[soundName].currentTime = 0;
+    sounds[soundName].play().catch(err => {
+      // Handle autoplay restrictions gracefully
+      console.log('Error playing sound:', err);
+    });
+  }
+}
+
+// Toggle sound on/off
+function toggleSound() {
+  gameState.soundEnabled = !gameState.soundEnabled;
+
+  // Update the sound button icon
+  if (soundToggleElement) {
+    soundToggleElement.textContent = gameState.soundEnabled ? '🔊' : '🔈';
+  }
+
+  // Save sound preference to localStorage
+  saveSoundPreference();
+}
+
+// Save sound preference to local storage
+function saveSoundPreference() {
+  localStorage.setItem('colorMatchSoundEnabled', gameState.soundEnabled.toString());
+}
+
+// Load sound preference from local storage
+function loadSoundPreference() {
+  const savedPreference = localStorage.getItem('colorMatchSoundEnabled');
+  if (savedPreference !== null) {
+    gameState.soundEnabled = savedPreference === 'true';
+  }
+}
 
 // Generate a random card
 function generateRandomCard() {
@@ -139,10 +184,19 @@ function updateCardUI(card) {
 function initializeGame() {
   loadBestScore();
   loadLanguagePreference();
+  loadSoundPreference();
   updateLanguageUI();
   updateLanguageButtons();
+  updateSoundButton();
 
   showWelcomeCard();
+}
+
+// Update sound button based on current state
+function updateSoundButton() {
+  if (soundToggleElement) {
+    soundToggleElement.textContent = gameState.soundEnabled ? '🔊' : '🔈';
+  }
 }
 
 // Start the game
@@ -352,9 +406,9 @@ function updateLanguageButtons() {
   if (!languageButtons) return;
 
   languageButtons.forEach((btn) => {
-    if (btn.dataset.lang === gameState.language) {
+    if (btn.dataset.lang === gameState.language && btn.id !== 'sound-toggle') {
       btn.classList.add('active');
-    } else {
+    } else if (btn.id !== 'sound-toggle') {
       btn.classList.remove('active');
     }
   });
@@ -500,6 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
   startButtonElement = document.getElementById('start-button');
   languageButtons = document.querySelectorAll('.language-btn');
   timerWarningElement = document.getElementById('timer-warning');
+  soundToggleElement = document.getElementById('sound-toggle');
 
   // Card dragging logic
   let dragging = false;
@@ -578,6 +633,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const isRight = currentX > 0;
       const screenWidth = window.innerWidth;
 
+      // Play the swipe sound effect
+      playSound('swipe');
+
       // Animate card off screen
       cardElement.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
 
@@ -629,10 +687,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Language button event listeners
   if (languageButtons) {
     languageButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const lang = btn.dataset.lang;
-        changeLanguage(lang);
-      });
+      if (btn.id !== 'sound-toggle') {
+        btn.addEventListener('click', () => {
+          const lang = btn.dataset.lang;
+          changeLanguage(lang);
+        });
+      }
+    });
+  }
+
+  // Sound toggle button event listener
+  if (soundToggleElement) {
+    soundToggleElement.addEventListener('click', () => {
+      toggleSound();
     });
   }
 
