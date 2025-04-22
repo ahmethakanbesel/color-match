@@ -5,7 +5,7 @@
 
 A fast-paced, mobile-friendly web game where players must quickly identify whether a color name matches the actual color it's displayed in.
 
-[Play Now!](#)
+[Play Now!](https://colormatched.netlify.app)
 
 ## Overview
 
