@@ -1,15 +1,14 @@
-// web/src/main.js
 const gameState = {
   score: 0,
   timeLeft: 30,
-  maxTime: 10, // For progress bar calculation
+  maxTime: 10,
   isPlaying: false,
   lastCardTime: 0,
   bestScore: 0,
-  language: 'en', // Default language
+  language: 'en',
   countdownInterval: null,
   isWelcomeCard: true,
-  soundEnabled: true, // Add sound state
+  soundEnabled: true,
 };
 
 // Sound effects
@@ -101,7 +100,7 @@ function playSound(soundName) {
   if (gameState.soundEnabled && sounds[soundName]) {
     // Reset sound to beginning in case it's already playing
     sounds[soundName].currentTime = 0;
-    sounds[soundName].play().catch(err => {
+    sounds[soundName].play().catch((err) => {
       // Handle autoplay restrictions gracefully
       console.log('Error playing sound:', err);
     });
@@ -123,7 +122,10 @@ function toggleSound() {
 
 // Save sound preference to local storage
 function saveSoundPreference() {
-  localStorage.setItem('colorMatchSoundEnabled', gameState.soundEnabled.toString());
+  localStorage.setItem(
+    'colorMatchSoundEnabled',
+    gameState.soundEnabled.toString()
+  );
 }
 
 // Load sound preference from local storage
@@ -535,8 +537,6 @@ function animateStackForward() {
     stackItems[1].style.zIndex = '3';
   }
 }
-
-// --- Event Listeners ---
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
