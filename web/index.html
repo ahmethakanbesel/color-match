@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Match</title>
+  <link rel="stylesheet" href="/src/style.css">
+  <meta name="theme-color" content="#374151">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+
+<body>
+  <div id="game-container">
+    <div class="game-header">
+      <h1 id="game-title">Color Match!</h1>
+      <p id="game-instruction">Swipe right if the text matches its color, left if it doesn't!</p>
+    </div>
+
+    <div class="game-stats">
+      <div id="score-counter">Score: 0</div>
+    </div>
+
+    <!-- Timer progress bar -->
+    <div id="timer-container">
+      <div id="timer-progress"></div>
+    </div>
+
+    <div id="timer-warning">
+      <span id="timer-warning-icon">⏱️</span>
+      <span>Time running out!</span>
+    </div>
+
+    <div id="card-area">
+      <div class="card-stack-item"></div>
+      <div class="card-stack-item"></div>
+
+      <div id="card">
+        <div id="card-text">RED</div>
+
+        <!-- Directional indicators that appear on hover/touch -->
+        <div class="swipe-left"></div>
+        <div class="swipe-right"></div>
+      </div>
+    </div>
+
+    <div id="about-icon">i</div>
+
+    <!-- Language switcher buttons -->
+    <div id="language-buttons">
+      <button class="language-btn" data-lang="en">🇬🇧</button>
+      <button class="language-btn" data-lang="tr">🇹🇷</button>
+    </div>
+
+    <div id="copyright">© 2025 Color Match.</div>
+  </div>
+
+  <!-- Start Screen -->
+  <div id="start-screen">
+    <div id="start-content">
+      <h2 id="start-title">Color Match!</h2>
+      <button id="start-button">Start Game</button>
+    </div>
+  </div>
+
+  <!-- About Modal -->
+  <div id="about-modal">
+    <div id="about-content">
+      <h2 id="about-title">About Color Match!</h2>
+      <p id="about-text">
+        Color Match! is a fast-paced game where you need to swipe right if the color name matches its text color, and
+        left if it doesn't. Each correct match adds time to your countdown, with faster responses adding more time.
+        Wrong choices have a time penalty. How long can you keep the game going?
+      </p>
+    </div>
+  </div>
+
+  <!-- Game Over Screen -->
+  <div id="game-over">
+    <h2 id="game-over-title">Game Over!</h2>
+    <div id="game-over-reason">
+      Your final score: 0
+      <br>
+      Best score: 0
+    </div>
+    <button id="restart-button">Play Again</button>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

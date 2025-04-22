@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Color Match Banner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Arial&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="game-banner">
+        <div class="banner-left">
+            <div class="card-visual">
+                <div class="mini-card">
+                    <!-- Added arrow indicators inside the card -->
+                    <div class="swipe-arrows">
+                        <span class="arrow left-arrow">←</span>
+                        <span class="arrow right-arrow">→</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="banner-middle">
+            <!-- Updated Title -->
+            <h1 class="banner-title">Color Match!</h1>
+            <!-- Updated Subtitle/Instruction -->
+            <div class="banner-subtitle">Match the Color, Beat the Clock!</div>
+        </div>
+        <div class="banner-right">
+            <div class="banner-stats-preview">
+                <!-- Updated relevant icons to colored circles -->
+                <div class="mini-stat" style="background-color: #EC1A2F;"></div> <!-- Red Circle -->
+                <div class="mini-stat" style="background-color: #01A2E6;"></div> <!-- Blue Circle -->
+                <div class="mini-stat" style="background-color: #62BB46;"></div> <!-- Green Circle -->
+                <div class="mini-stat" style="background-color: #FEE019;"></div> <!-- Yellow Circle -->
+            </div>
+        </div>
+
+        <style>
+            /* Base styles - adjusted for light theme */
+            body {
+                font-family: 'Arial', sans-serif;
+                display: flex;
+                justify-content: center;
+                padding: 20px;
+                background-color: #f0f0f0;
+                /* Keep body background light */
+            }
+
+            .game-banner {
+                width: 100%;
+                max-width: 600px;
+                background: #e5e7eb;
+                color: #1f2937;
+                border-radius: 10px;
+                padding: 12px 20px;
+                margin-bottom: 15px;
+                display: flex;
+                align-items: center;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+                flex-shrink: 0;
+            }
+
+            .banner-left {
+                flex: 0 0 60px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 10px;
+            }
+
+            .card-visual {
+                position: relative;
+                /* Establishes stacking context */
+                width: 50px;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .mini-card {
+                width: 38px;
+                height: 46px;
+                background: white;
+                border-radius: 5px;
+                border: 2px solid #d1d5db;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+                font-size: 16px;
+                position: relative;
+                /* Participates in stacking */
+                transform: rotate(-5deg);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                overflow: hidden;
+                text-align: center;
+                z-index: 1;
+                /* Explicitly set lower z-index */
+            }
+
+            .mini-card-text {
+                position: relative;
+                z-index: 2;
+                /* Ensure text is above card background */
+                line-height: 1;
+                padding: 2px;
+                user-select: none;
+            }
+
+            /* Updated: Placed swipe arrows INSIDE the card */
+            .swipe-arrows {
+                position: absolute;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 3;
+                pointer-events: none;
+                padding: 0 4px;
+            }
+
+            .arrow {
+                font-size: 16px;
+                color: #4b5563;
+                text-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+                opacity: 0.75;
+            }
+
+            .left-arrow {
+                margin-right: auto;
+            }
+
+            .right-arrow {
+                margin-left: auto;
+            }
+
+            .banner-middle {
+                flex: 1;
+                text-align: center;
+                margin: 0 10px;
+            }
+
+            .banner-title {
+                font-size: 26px;
+                font-weight: bold;
+                margin: 0;
+                line-height: 1.1;
+            }
+
+            .banner-subtitle {
+                font-size: 13px;
+                opacity: 0.8;
+                margin-top: 4px;
+            }
+
+            .banner-right {
+                flex: 0 0 70px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .banner-stats-preview {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+                width: 54px;
+                height: 54px;
+            }
+
+            .mini-stat {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            /* Responsive Adjustments */
+            @media (max-width: 480px) {
+                .game-banner {
+                    padding: 10px 15px;
+                }
+
+                .banner-left {
+                    flex: 0 0 50px;
+                    margin-right: 5px;
+                }
+
+                .mini-card {
+                    width: 32px;
+                    height: 40px;
+                    font-size: 14px;
+                }
+
+                /* Adjust arrow position/size for mobile if needed */
+                .arrow {
+                    font-size: 14px;
+                }
+
+                .banner-title {
+                    font-size: 22px;
+                }
+
+                .banner-subtitle {
+                    font-size: 11px;
+                }
+
+                .banner-right {
+                    flex: 0 0 60px;
+                }
+
+                .banner-stats-preview {
+                    width: 48px;
+                    height: 48px;
+                    gap: 4px;
+                }
+
+                .mini-stat {
+                    width: 22px;
+                    height: 22px;
+                }
+            }
+
+            @media (max-width: 360px) {
+                .banner-title {
+                    font-size: 18px;
+                }
+
+                .banner-subtitle {
+                    font-size: 10px;
+                }
+
+                .mini-card {
+                    width: 28px;
+                    height: 36px;
+                    font-size: 12px;
+                }
+
+                .arrow {
+                    font-size: 12px;
+                }
+
+                .mini-stat {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                .banner-stats-preview {
+                    width: 44px;
+                    height: 44px;
+                }
+            }
+        </style>
+    </div>
+
+    <!-- Script to capture banner (optional, keep if needed) -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        function captureBanner() {
+            const banner = document.querySelector('.game-banner');
+            if (!banner) return;
+
+            html2canvas(banner, {
+                backgroundColor: null, scale: 2, useCORS: true
+            }).then(canvas => {
+                console.log("Banner captured successfully. Uncomment download code if needed.");
+                const link = document.createElement('a');
+                link.download = 'color-match-banner-light.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }).catch(err => {
+                console.error("Error capturing banner:", err);
+            });
+        }
+        captureBanner();
+    </script>
+
+</body>
+
+</html>
