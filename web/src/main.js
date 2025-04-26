@@ -261,7 +261,7 @@ function endGame() {
 
 // Load best score from local storage
 function loadBestScore() {
-  const savedBest = localStorage.getItem('colorMatchBestScore');
+  const savedBest = localStorage.getItem('colorMatchBestScore-v2');
   if (savedBest) {
     gameState.bestScore = parseInt(savedBest, 10);
   }
@@ -269,7 +269,7 @@ function loadBestScore() {
 
 // Save best score to local storage
 function saveBestScore() {
-  localStorage.setItem('colorMatchBestScore', gameState.bestScore.toString());
+  localStorage.setItem('colorMatchBestScore-v2', gameState.bestScore.toString());
 }
 
 // Load language preference from local storage
