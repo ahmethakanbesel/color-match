@@ -46,9 +46,9 @@ const colorHexCodes = {
 // Translations for UI elements
 const translations = {
   en: {
-    title: 'Color Match!',
+    title: 'Color Match',
     instruction:
-      "Swipe right if the text matches its color, left if it doesn't!",
+      "Swipe right if the text matches its color, left if it doesn't.",
     score: 'Score:',
     gameOver: 'Game Over!',
     finalScore: 'Your final score:',
@@ -63,9 +63,9 @@ const translations = {
     swipeToStart: 'Swipe to start',
   },
   tr: {
-    title: 'Renk Eşleştirme!',
+    title: 'Renk Eşleştirme',
     instruction:
-      'Renk ismi ile rengi eşleşiyorsa sağa, eşleşmiyorsa sola kaydır!',
+      'Renk ismi ile rengi eşleşiyorsa sağa, eşleşmiyorsa sola kaydırın.',
     score: 'Puan:',
     gameOver: 'Oyun Bitti!',
     finalScore: 'Toplam puanınız:',
