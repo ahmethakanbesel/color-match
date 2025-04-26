@@ -9,6 +9,9 @@ const gameState = {
   countdownInterval: null,
   isWelcomeCard: true,
   soundEnabled: true,
+  speedFactor: 1.0, // Base speed factor that will increase with each correct answer
+  difficultyMultiplier: 0.10, // How much to increase difficulty per correct answer
+  currentStreakMultiplier: 1.0 // Bonus multiplier for consecutive correct answers
 };
 
 // Sound effects
@@ -207,6 +210,8 @@ function startGame() {
   gameState.timeLeft = 10;
   gameState.maxTime = 10;
   gameState.isPlaying = true;
+  gameState.speedFactor = 1.0; // Reset speed factor
+  gameState.currentStreakMultiplier = 1.0; // Reset streak multiplier
 
   // Hide start screen and game over screen
   if (startScreenElement) startScreenElement.style.display = 'none';
@@ -226,7 +231,9 @@ function startGame() {
   }
 
   gameState.countdownInterval = setInterval(() => {
-    gameState.timeLeft -= 0.1; // Update every 100ms for smoother countdown
+    // Time decreases faster as the speed factor increases
+    const timeDecrease = 0.1 * gameState.speedFactor;
+    gameState.timeLeft -= timeDecrease;
     updateTimerProgressBar();
 
     if (gameState.timeLeft <= 0) {
@@ -291,7 +298,7 @@ function updateTimerProgressBar() {
   if (gameState.timeLeft <= 3) {
     timerProgressElement.classList.add('warning');
     if (timerWarningElement) {
-      timerWarningElement.style.display = 'flex';
+      timerWarningElement.style.display = 'none';
       timerWarningElement.querySelector('span:last-child').textContent =
         translations[gameState.language].timeRunningOut;
     }
@@ -438,24 +445,35 @@ function processSwipe(isRight) {
     return;
   }
 
-  // Rest of the function remains the same
   if (!gameState.isPlaying || !currentCard) return;
 
   const responseTime = (Date.now() - gameState.lastCardTime) / 1000; // in seconds
 
-  // Check if the swipe direction matches the card
   const isCorrect =
     (isRight && currentCard.isMatch) || (!isRight && !currentCard.isMatch);
 
   if (isCorrect) {
+    // Increase difficulty slightly with each correct answer
+    gameState.speedFactor += gameState.difficultyMultiplier * gameState.currentStreakMultiplier;
+
+    // Cap the speed factor to avoid making the game impossible
+    gameState.speedFactor = Math.min(gameState.speedFactor, 2.5);
+
+    // Increase the streak multiplier (makes difficulty increase faster on streaks)
+    gameState.currentStreakMultiplier = Math.min(gameState.currentStreakMultiplier + 0.1, 3.0);
+
     // Calculate time bonus based on response time
     // Faster responses (smaller responseTime) get more bonus time
-    // Minimum 0.5s, maximum 2s
-    let timeBonus = Math.max(0.25, Math.min(1.0, 3 - responseTime));
+    let baseTimeBonus = Math.max(0.100, Math.min(1.0, 3 - responseTime));
     if (responseTime <= 0.8) {
       // Extra bonus for very fast responses
-      timeBonus *= 1.5;
+      baseTimeBonus *= 1.5;
     }
+
+    // Reduce time bonus as difficulty increases
+    // Use inverse of speedFactor to reduce time bonus
+    const difficultyReduction = 1 / gameState.speedFactor;
+    const timeBonus = baseTimeBonus * difficultyReduction;
 
     // Add time and score
     gameState.timeLeft += timeBonus;
@@ -465,7 +483,13 @@ function processSwipe(isRight) {
     updateScoreUI();
   } else {
     // Penalty for wrong answer - lose some time
-    gameState.timeLeft = Math.max(0, gameState.timeLeft - 2); // Increased penalty to 2 seconds
+    // Make penalties more severe as difficulty increases
+    const basePenalty = 2;
+    const scaledPenalty = basePenalty * gameState.speedFactor;
+    gameState.timeLeft = Math.max(0, gameState.timeLeft - scaledPenalty);
+
+    // Reset streak multiplier on incorrect swipe
+    gameState.currentStreakMultiplier = 1.0;
   }
 
   // Generate and show a new card
