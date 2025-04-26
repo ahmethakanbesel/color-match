@@ -10,7 +10,7 @@ const gameState = {
   isWelcomeCard: true,
   soundEnabled: true,
   speedFactor: 1.0, // Base speed factor that will increase with each correct answer
-  difficultyMultiplier: 0.04, // How much to increase difficulty per correct answer
+  difficultyMultiplier: 0.01, // How much to increase difficulty per correct answer
   currentStreakMultiplier: 1.0 // Bonus multiplier for consecutive correct answers
 };
 
