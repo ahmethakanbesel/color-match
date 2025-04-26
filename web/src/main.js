@@ -10,13 +10,15 @@ const gameState = {
   isWelcomeCard: true,
   soundEnabled: true,
   speedFactor: 1.0, // Base speed factor that will increase with each correct answer
-  difficultyMultiplier: 0.01, // How much to increase difficulty per correct answer
+  difficultyMultiplier: 0.001, // How much to increase difficulty per correct answer
   currentStreakMultiplier: 1.0 // Bonus multiplier for consecutive correct answers
 };
 
 // Sound effects
 const sounds = {
   swipe: new Audio('swipe.mp3'),
+  correct: new Audio('correct.wav'),
+  wrong: new Audio('wrong.mp3'),
 };
 
 // Available colors for the game
@@ -453,6 +455,8 @@ function processSwipe(isRight) {
     (isRight && currentCard.isMatch) || (!isRight && !currentCard.isMatch);
 
   if (isCorrect) {
+    playSound('correct');
+
     // Increase difficulty slightly with each correct answer
     gameState.speedFactor += gameState.difficultyMultiplier * gameState.currentStreakMultiplier;
 
@@ -482,6 +486,8 @@ function processSwipe(isRight) {
     // Update score display
     updateScoreUI();
   } else {
+    playSound('wrong');
+
     // Penalty for wrong answer - lose some time
     // Make penalties more severe as difficulty increases
     const basePenalty = 2;
@@ -658,7 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const screenWidth = window.innerWidth;
 
       // Play the swipe sound effect
-      playSound('swipe');
+      // playSound('swipe');
 
       // Animate card off screen
       cardElement.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
